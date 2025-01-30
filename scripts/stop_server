@@ -1,3 +1,3 @@
 #!/bin/bash
-sudo docker stop ex-nginx
-sudo docker rm ex-nginx
+sudo docker stop ex-nginx || true
+sudo docker rm ex-nginx || true
