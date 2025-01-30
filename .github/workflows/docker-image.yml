@@ -11,8 +11,16 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    steps:  
+    steps:
       - uses: actions/checkout@v4
+
+      - name: Cache SonarCloud files
+        uses: actions/cache@v4  # ✅ Updated to v4
+        with:
+          path: ~/.sonar/cache
+          key: sonar-cache-${{ runner.os }}-${{ github.sha }}
+          restore-keys: |
+            sonar-cache-${{ runner.os }}-
 
       - name: Build the Docker image
         run: docker build . --file Dockerfile --tag kokatim/final-python:${{ github.run_number }}-${{ github.sha }}
@@ -25,3 +33,8 @@ jobs:
 
       - name: Push Docker image
         run: docker push kokatim/final-python:${{ github.run_number }}-${{ github.sha }}
+
+      - name: Run SonarQube Scan
+        uses: SonarSource/sonarqube-scan-action@v2  # ✅ Updated action
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}  # ✅ Uses secure token
