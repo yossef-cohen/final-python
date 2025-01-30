@@ -1,2 +1,6 @@
-#!/bin/bash
+# Pull the latest image
+sudo docker pull kokatim/final-python:latest
+# Remove existing container if it exists
+sudo docker rm -f final_python4 || true
+# Run new container
 sudo docker run -d --name final_python4 -p 80:5000 kokatim/final-python:latest
