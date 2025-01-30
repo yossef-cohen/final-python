@@ -1,3 +1,4 @@
-# Stop and remove the container if it exists
-sudo docker stop final_python4 || true
-sudo docker rm final_python4 || true
+#!/bin/bash
+
+sudo docker stop final-python-project 
+sudo docker rm final-python-project
