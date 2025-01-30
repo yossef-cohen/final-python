@@ -1,3 +1,34 @@
-#!/bin/bash
-curl -fsSL https://get.docker.com -o get-docker.sh
-sudo sh get-docker.sh
+# Set up logging to /var/log/codedeploy-deployment.log
+exec 1> >(tee -a /var/log/codedeploy-deployment.log) 2>&1
+
+echo "=== INSTALL_DEPENDENCIES SCRIPT START: $(date) ==="
+echo "Current working directory: $(pwd)"
+echo "Current user: $(whoami)"
+echo "Script location: $0"
+
+echo "Checking if Docker is installed..."
+if command -v docker &> /dev/null; then
+    echo "Docker is already installed. Version: $(docker --version)"
+else
+    echo "Docker not found, installing..."
+    echo "Downloading Docker installation script..."
+    curl -fsSL https://get.docker.com -o get-docker.sh
+    
+    echo "Running Docker installation script..."
+    sh get-docker.sh
+    
+    echo "Docker installation completed. Version: $(docker --version)"
+fi
+
+echo "Starting Docker service..."
+systemctl status docker || true
+systemctl start docker
+systemctl enable docker
+echo "Docker service status after start:"
+systemctl status docker || true
+
+echo "Testing Docker functionality..."
+docker ps || echo "Failed to run docker ps"
+
+echo "=== INSTALL_DEPENDENCIES SCRIPT END: $(date) ==="
+
