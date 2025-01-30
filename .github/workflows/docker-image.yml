@@ -14,10 +14,10 @@ jobs:
     runs-on: ubuntu-latest
 
       steps:
-    - uses: actions/checkout@v4
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag kokatim/final-python:${{ github.run_number }}-${GITHUB_SHA}
-    - name: docker login
-      run: docker login -u ${{ secrets.USERNAME }} -p ${{ secrets.PASSWORD }}
-    - name: docker push
-      run: docker push kokatim/final-python:${{ github.run_number }}-${GITHUB_SHA}
+      - uses: actions/checkout@v4
+      - name: Build the Docker image
+        run: docker build . --file Dockerfile --tag kokatim/final-python:${{ github.run_number }}-${GITHUB_SHA}
+      - name: docker login
+        run: docker login -u ${{ secrets.USERNAME }} -p ${{ secrets.PASSWORD }}
+      - name: docker push
+        run: docker push kokatim/final-python:${{ github.run_number }}-${GITHUB_SHA}
