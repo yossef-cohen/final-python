@@ -1,25 +1,4 @@
 #!/bin/bash
-set -e
 
-# Enable logging
-exec 1> >(tee -a /var/log/codedeploy-deployment.log) 2>&1
-
-echo "=== INSTALL_DEPENDENCIES SCRIPT START: $(date) ==="
-echo "Current working directory: $(pwd)"
-echo "Current user: $(whoami)"
-
-# Install Docker using Amazon Linux's package manager
-echo "Installing Docker using Amazon Linux package manager..."
-sudo yum update -y
-sudo yum install -y docker
-
-# Start Docker service
-echo "Starting Docker service..."
-sudo service docker start
-sudo systemctl enable docker
-
-# Add ec2-user to docker group
-sudo usermod -a -G docker ec2-user
-
-echo "Docker installation completed. Version: $(docker --version)"
-echo "=== INSTALL_DEPENDENCIES SCRIPT END: $(date) ==="
+curl -fsSL https://get.docker.com -o get-docker.sh
+sudo sh get-docker.sh
