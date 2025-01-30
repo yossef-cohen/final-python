@@ -1,12 +1,3 @@
 #!/bin/bash
-# Install CodeDeploy Agent
-sudo yum update -y
-sudo yum install -y ruby wget
-cd /home/ec2-user
-wget https://aws-codedeploy-us-east-1.s3.amazonaws.com/latest/install
-chmod +x ./install
-sudo ./install auto
-
-# Install Docker
 curl -fsSL https://get.docker.com -o get-docker.sh
 sudo sh get-docker.sh
