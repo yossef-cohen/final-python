@@ -19,6 +19,9 @@ jobs:
         
     - name: docker login
       run: docker login -u ${{ secrets.USERNAME }} -p ${{ secrets.PASSWORD }}
+
+    - name: docker push
+      run: docker push kokatim/final-python:$(date +%s)
       
         
 
