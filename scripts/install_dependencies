@@ -1,14 +1,58 @@
 #!/bin/bash
 
+echo "[DEBUG] Starting installation script"
+echo "[DEBUG] Current working directory: $(pwd)"
+echo "[DEBUG] Current user: $(whoami)"
+echo "[DEBUG] System information:"
+cat /etc/*release
+
 # Install docker on Amazon Linux 2
+echo "[DEBUG] Updating yum packages..."
 sudo yum update -y
+if [ $? -eq 0 ]; then
+    echo "[DEBUG] Yum update successful"
+else
+    echo "[DEBUG] Error: Yum update failed with exit code $?"
+    exit 1
+fi
+
+echo "[DEBUG] Installing Docker..."
 sudo yum install -y docker
+if [ $? -eq 0 ]; then
+    echo "[DEBUG] Docker installation successful"
+else
+    echo "[DEBUG] Error: Docker installation failed with exit code $?"
+    exit 1
+fi
 
 # Start Docker service
+echo "[DEBUG] Starting Docker service..."
 sudo service docker start
+if [ $? -eq 0 ]; then
+    echo "[DEBUG] Docker service started successfully"
+else
+    echo "[DEBUG] Error: Failed to start Docker service with exit code $?"
+    exit 1
+fi
 
-# Add the ec2-user to the docker group to run docker commands without sudo
+# Add the ec2-user to the docker group
+echo "[DEBUG] Adding user to docker group..."
 sudo usermod -a -G docker ec2-user
+if [ $? -eq 0 ]; then
+    echo "[DEBUG] User added to docker group successfully"
+else
+    echo "[DEBUG] Error: Failed to add user to docker group with exit code $?"
+    exit 1
+fi
 
 # Enable docker service at boot
+echo "[DEBUG] Enabling Docker service at boot..."
 sudo chkconfig docker on
+if [ $? -eq 0 ]; then
+    echo "[DEBUG] Docker service enabled at boot successfully"
+else
+    echo "[DEBUG] Error: Failed to enable Docker at boot with exit code $?"
+    exit 1
+fi
+
+echo "[DEBUG] Installation script completed successfully"
