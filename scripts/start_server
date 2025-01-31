@@ -5,4 +5,4 @@ sudo docker pull kokatim/final-python:latest
 sudo docker stop final-python-project || true
 sudo docker rm final-python-project || true
 
-sudo docker run -d -p 8080:5000 kokatim/final-python:latest --name final-python-project kokatim/final-python:latest
+sudo docker run -d -p 80:5000 kokatim/final-python:latest --name final-python-project kokatim/final-python:latest
