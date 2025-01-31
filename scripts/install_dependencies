@@ -1,3 +1,3 @@
 #!/bin/bash
-curl -fsSl http://get.docker.com -o get-socker.sh
+curl -fsSl https://get.docker.com -o get-docker.sh
 sudo sh get-docker.sh
