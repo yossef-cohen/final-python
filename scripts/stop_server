@@ -1,5 +1,5 @@
 
 #!/bin/bash
 
-sudo docker stop final-python-project 
-sudo docker rm final-python-project
+sudo docker stop final-python
+sudo docker rm final-python
