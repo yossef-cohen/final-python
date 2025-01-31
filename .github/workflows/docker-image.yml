@@ -1,5 +1,4 @@
 name: Docker Image CI
-
 on:
   push:
     branches: [ "main" ]
@@ -10,18 +9,21 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v4
-
+    
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag kokatim/final-python:${{ github.run_number }}-${{ github.sha }}
+      run: |
+        docker build . --file Dockerfile --tag kokatim/final-python:${{ github.run_number }}-${{ github.sha }}
+        docker tag kokatim/final-python:${{ github.run_number }}-${{ github.sha }} kokatim/final-python:latest
 
     - name: Login to Docker Hub
       env:
         DOCKER_USER: ${{ secrets.USERNAME }}
         DOCKER_PASS: ${{ secrets.PASSWORD }}
       run: echo "$DOCKER_PASS" | docker login --username "$DOCKER_USER" --password-stdin
-
-    - name: Push Docker image
-      run: docker push kokatim/final-python:${{ github.run_number }}-${{ github.sha }}
+    
+    - name: Push Docker images
+      run: |
+        docker push kokatim/final-python:${{ github.run_number }}-${{ github.sha }}
+        docker push kokatim/final-python:latest
