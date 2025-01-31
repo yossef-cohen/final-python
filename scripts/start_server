@@ -1,8 +1,18 @@
 #!/bin/bash
 
-sudo docker pull kokatim/final-python:latest
+# Enable debugging
+set -e  # Exit immediately if a command fails
+set -x  # Print each command before executing it
 
-sudo docker stop final-python || true
-sudo docker rm final-python || true
+# Pull the latest version of the Docker image
+sudo docker pull kokatim/final-python:latest || { echo "Docker pull failed"; exit 1; }
 
-sudo docker run -d -p 8080:5000 kokatim/final-python:latest --name final-python kokatim/final-python:latest
+# Stop the existing container if running
+sudo docker stop final-python-project || true
+sudo docker rm final-python-project || true
+
+# Run the container with corrected syntax
+sudo docker run -d --name final-python-project -p 8080:5000 kokatim/final-python:latest || { echo "Docker run failed"; exit 1; }
+
+# Verify the container is running
+sudo docker ps | grep final-python-project || { echo "Container failed to start"; exit 1; }
