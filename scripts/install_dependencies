@@ -1,3 +1,18 @@
 #!/bin/bash
+
+# Enable debugging
+set -e  # Exit immediately if a command fails
+set -x  # Print each command before executing it
+
+# Download Docker installation script
 curl -fsSL https://get.docker.com -o get-docker.sh
+
+# Run Docker installation script with elevated permissions
 sudo sh get-docker.sh
+
+# Start Docker service (in case it is not started automatically)
+sudo systemctl start docker
+sudo systemctl enable docker
+
+# Verify Docker installation
+docker --version || { echo "Docker installation failed"; exit 1; }
